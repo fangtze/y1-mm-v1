@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stitch's Bahasa Melayu Adventure</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%, #ffffff 0 5%, transparent 6%),
+        radial-gradient(circle at 90% 20%, #ffffff 0 4%, transparent 5%),
+        linear-gradient(135deg, #b9efff, #d8f7ff, #ffd5eb);
+    min-height: 100vh;
+    color: #17324d;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: linear-gradient(135deg, #168dcc, #4fc7ee);
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-face {
+    width: 58px;
+    height: 58px;
+    background: #177bb5;
+    border-radius: 50% 50% 45% 45%;
+    border: 4px solid white;
+    position: relative;
+}
+
+.logo-face:before,
+.logo-face:after {
+    content: "";
+    position: absolute;
+    width: 23px;
+    height: 30px;
+    background: #177bb5;
+    top: -15px;
+    border-radius: 80% 20% 60% 30%;
+}
+
+.logo-face:before {
+    left: -7px;
+    transform: rotate(-30deg);
+}
+
+.logo-face:after {
+    right: -7px;
+    transform: rotate(30deg);
+}
+
+.eye {
+    position: absolute;
+    width: 8px;
+    height: 12px;
+    background: #111;
+    border-radius: 50%;
+    top: 21px;
+}
+
+.eye.left {
+    left: 15px;
+}
+
+.eye.right {
+    right: 15px;
+}
+
+.logo-text h1 {
+    margin: 0;
+    font-size: 23px;
+}
+
+.logo-text p {
+    margin: 3px 0 0;
+    font-size: 13px;
+}
+
+.stats {
+    display: flex;
+    gap: 12px;
+}
+
+.stat {
+    background: rgba(255,255,255,0.22);
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-weight: bold;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container {
+    width: min(1100px, 94%);
+    margin: 25px auto 50px;
+}
+
+.welcome {
+    text-align: center;
+    padding: 20px;
+}
+
+.welcome h2 {
+    font-size: 32px;
+    margin: 5px 0;
+    color: #086a9c;
+}
+
+.welcome p {
+    font-size: 17px;
+}
+
+/* =========================
+   LEVEL CARDS
+========================= */
+
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.level-card {
+    background: white;
+    border-radius: 25px;
+    padding: 22px 15px;
+    text-align: center;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    border: 3px solid transparent;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.level-card:hover {
+    transform: translateY(-5px) rotate(-1deg);
+    border-color: #49c9ee;
+}
+
+.level-icon {
+    font-size: 45px;
+}
+
+.level-card h3 {
+    margin: 10px 0 5px;
+    color: #0878a9;
+    font-size: 18px;
+}
+
+.level-card p {
+    font-size: 13px;
+    min-height: 35px;
+}
+
+.start-btn {
+    border: none;
+    background: #ff79b0;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.start-btn:hover {
+    background: #ff5799;
+}
+
+/* =========================
+   GAME SCREEN
+========================= */
+
+.game-screen {
+    display: none;
+}
+
+.game-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.back-btn {
+    border: none;
+    background: white;
+    padding: 10px 17px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #0878a9;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.progress-box {
+    flex: 1;
+    margin: 0 20px;
+}
+
+.progress-text {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.progress {
+    height: 13px;
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg,#38bdf8,#ff7eb3);
+    transition: 0.3s;
+}
+
+/* =========================
+   QUESTION CARD
+========================= */
+
+.question-card {
+    background: rgba(255,255,255,0.96);
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.13);
+    min-height: 500px;
+}
+
+.stitch-mini {
+    text-align: center;
+    font-size: 70px;
+    margin-bottom: 5px;
+}
+
+.question-type {
+    display: inline-block;
+    background: #d9f6ff;
+    color: #0878a9;
+    padding: 7px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.question {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 25px 0;
+}
+
+/* =========================
+   OPTIONS
+========================= */
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.option {
+    border: 3px solid #b8e8f7;
+    background: #f8fdff;
+    padding: 17px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    background: #e5f9ff;
+    transform: scale(1.02);
+}
+
+.option.correct {
+    background: #c9f7d8;
+    border-color: #45c979;
+}
+
+.option.wrong {
+    background: #ffd1dc;
+    border-color: #ff6689;
+}
+
+/* =========================
+   PICTURE OPTIONS
+========================= */
+
+.picture-options {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.picture-option {
+    background: #fff9fd;
+    border: 3px solid #e9b9d0;
+    border-radius: 25px;
+    padding: 18px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.picture-option .pic {
+    font-size: 65px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.picture-option:hover {
+    transform: scale(1.03);
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.answer-input {
+    display: block;
+    width: min(700px,90%);
+    margin: 20px auto;
+    padding: 16px;
+    border: 3px solid #b9e9f7;
+    border-radius: 18px;
+    font-size: 19px;
+    text-align: center;
+    outline: none;
+}
+
+.answer-input:focus {
+    border-color: #44bce7;
+}
+
+.check-btn {
+    display: block;
+    margin: 15px auto;
+    background: #ff77ad;
+    color: white;
+    border: none;
+    padding: 13px 30px;
+    border-radius: 25px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.feedback {
+    text-align: center;
+    font-size: 19px;
+    font-weight: bold;
+    min-height: 30px;
+    margin: 10px;
+}
+
+.next-btn {
+    display: none;
+    margin: 15px auto;
+    background: #149bd3;
+    color: white;
+    border: none;
+    padding: 13px 30px;
+    border-radius: 25px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* =========================
+   READING
+========================= */
+
+.passage {
+    max-width: 800px;
+    margin: auto;
+    background: #effbff;
+    border-left: 7px solid #48c4ec;
+    padding: 20px;
+    border-radius: 15px;
+    line-height: 1.8;
+    font-size: 17px;
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result {
+    display: none;
+    background: white;
+    border-radius: 30px;
+    padding: 40px 25px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.result-icon {
+    font-size: 80px;
+}
+
+.result h2 {
+    color: #0878a9;
+    font-size: 30px;
+}
+
+.final-score {
+    font-size: 45px;
+    color: #ff6ca7;
+    font-weight: bold;
+}
+
+.home-btn {
+    border: none;
+    background: #149bd3;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 25px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:800px) {
+    .level-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .options,
+    .picture-options {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .question {
+        font-size: 21px;
+    }
+}
+
+@media(max-width:500px) {
+    .level-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .question-card {
+        padding: 20px 12px;
+    }
+
+    .stats {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <div class="logo">
+
+        <div class="logo-face">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+        </div>
+
+        <div class="logo-text">
+            <h1>🌺 Stitch's Bahasa Melayu</h1>
+            <p>Unit 8 – Unit 18 • Tahun 1</p>
+        </div>
+
+    </div>
+
+    <div class="stats">
+        <div class="stat">⭐ <span id="score">0</span></div>
+        <div class="stat">🪙 <span id="coins">0</span></div>
+    </div>
+
+</header>
+
+
+<div class="container">
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section id="home">
+
+    <div class="welcome">
+
+        <div style="font-size:65px;">
+            🩵 👽 🌺
+        </div>
+
+        <h2>Stitch's Bahasa Melayu Adventure!</h2>
+
+        <p>
+            Jom belajar Bahasa Melayu bersama Stitch! 
+            Pilih satu misi dan jawab soalan dengan betul.
+        </p>
+
+        <p>
+            ⭐ Tiada masa tamat • 🩵 Belajar dengan santai • 🌺 Kumpul bintang
+        </p>
+
+    </div>
+
+
+    <div class="level-grid">
+
+        <div class="level-card" onclick="startLevel(0)">
+            <div class="level-icon">📝</div>
+            <h3>Mission 1</h3>
+            <p>Soalan Objektif</p>
+            <button class="start-btn">MULA</button>
+        </div>
+
+
+        <div class="level-card" onclick="startLevel(1)">
+            <div class="level-icon">🎨</div>
+            <h3>Mission 2</h3>
+            <p>Kata Adjektif<br>Warna & Bentuk</p>
+            <button class="start-btn">MULA</button>
+        </div>
+
+
+        <div class="level-card" onclick="startLevel(2)">
+            <div class="level-icon">✏️</div>
+            <h3>Mission 3</h3>
+            <p>Pembetulan Ejaan</p>
+            <button class="start-btn">MULA</button>
+        </div>
+
+
+        <div class="level-card" onclick="startLevel(3)">
+            <div class="level-icon">🖼️</div>
+            <h3>Mission 4</h3>
+            <p>Padankan Ayat<br>dengan Gambar</p>
+            <button class="start-btn">MULA</button>
+        </div>
+
+
+        <div class="level-card" onclick="startLevel(4)">
+            <div class="level-icon">🧩</div>
+            <h3>Mission 5</h3>
+            <p>Isi Tempat Kosong<br>dengan Frasa</p>
+            <button class="start-btn">MULA</button>
+        </div>
+
+
+        <div class="level-card" onclick="startLevel(5)">
+            <div class="level-icon">🔀</div>
+            <h3>Mission 6</h3>
+            <p>Susun Perkataan<br>Menjadi Ayat</p>
+            <button class="start-btn">MULA</button>
+        </div>
+
+
+        <div class="level-card" onclick="startLevel(6)">
+            <div class="level-icon">📖</div>
+            <h3>Mission 7</h3>
+            <p>Pemahaman</p>
+            <button class="start-btn">MULA</button>
+        </div>
+
+
+        <div class="level-card" onclick="startLevel(7)">
+            <div class="level-icon">✍️</div>
+            <h3>Mission 8</h3>
+            <p>Bina Ayat</p>
+            <button class="start-btn">MULA</button>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     GAME
+========================= -->
+
+<section id="game" class="game-screen">
+
+    <div class="game-top">
+
+        <button class="back-btn" onclick="goHome()">
+            🏠 Menu
+        </button>
+
+        <div class="progress-box">
+
+            <div class="progress-text">
+                Soalan <span id="questionNumber">1</span> /
+                <span id="questionTotal">5</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="question-card">
+
+        <div class="stitch-mini">
+            🩵
+        </div>
+
+        <div style="text-align:center;">
+            <span class="question-type" id="questionType">
+                Soalan
+            </span>
+        </div>
+
+        <div class="question" id="question">
+            Soalan akan muncul di sini.
+        </div>
+
+        <div id="questionContent"></div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+            Seterusnya ➜
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     RESULT
+========================= -->
+
+<section id="result" class="result">
+
+    <div class="result-icon" id="resultIcon">
+        🌺
+    </div>
+
+    <h2>Mission Selesai!</h2>
+
+    <p>Stitch bangga dengan kamu! 🩵</p>
+
+    <div class="final-score">
+        <span id="finalScore">0</span> ⭐
+    </div>
+
+    <p>
+        Jawapan betul:
+        <strong><span id="correctCount">0</span></strong>
+    </p>
+
+    <button class="home-btn" onclick="goHome()">
+        🏠 Kembali ke Menu
+    </button>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATA SOALAN
+   =========================================================
+
+   Setiap Mission ada 5 soalan.
+   Guru boleh tambah/edit soalan di bahagian ini.
+
+========================================================= */
+
+
+const levels = [
+
+/* =========================================================
+   MISSION 1
+   SOALAN OBJEKTIF
+========================================================= */
+
+[
+    {
+        type: "Soalan Objektif",
+        q: "Ali makan nasi _____.",
+        options: ["di dapur", "merah", "bulat", "cantik"],
+        answer: 0
+    },
+
+    {
+        type: "Soalan Objektif",
+        q: "Ibu sedang _____ sayur di dapur.",
+        options: ["memasak", "tidur", "berlari", "mandi"],
+        answer: 0
+    },
+
+    {
+        type: "Soalan Objektif",
+        q: "Siti mempunyai sebuah _____.",
+        options: ["buku", "berjalan", "merah", "cantik"],
+        answer: 0
+    },
+
+    {
+        type: "Soalan Objektif",
+        q: "Adik sedang _____ di ruang tamu.",
+        options: ["bermain", "buku", "merah", "bulat"],
+        answer: 0
+    },
+
+    {
+        type: "Soalan Objektif",
+        q: "Ayah membaca _____ di sofa.",
+        options: ["surat khabar", "berlari", "biru", "bulat"],
+        answer: 0
+    }
+],
+
+
+/* =========================================================
+   MISSION 2
+   KATA ADJEKTIF WARNA & BENTUK
+========================================================= */
+
+[
+    {
+        type: "Kata Adjektif – Warna",
+        q: "Apakah warna buah ini? 🍎",
+        options: ["Merah", "Biru", "Hijau", "Kuning"],
+        answer: 0
+    },
+
+    {
+        type: "Kata Adjektif – Warna",
+        q: "Pisang biasanya berwarna _____. 🍌",
+        options: ["Kuning", "Ungu", "Hitam", "Biru"],
+        answer: 0
+    },
+
+    {
+        type: "Kata Adjektif – Bentuk",
+        q: "Apakah bentuk bola? ⚽",
+        options: ["Bulat", "Segi tiga", "Segi empat", "Panjang"],
+        answer: 0
+    },
+
+    {
+        type: "Kata Adjektif – Bentuk",
+        q: "Apakah bentuk papan tanda ini? 🔺",
+        options: ["Segi tiga", "Bulat", "Segi empat", "Bujur"],
+        answer: 0
+    },
+
+    {
+        type: "Kata Adjektif – Bentuk",
+        q: "Buku biasanya berbentuk _____. 📕",
+        options: ["Segi empat tepat", "Bulat", "Segi tiga", "Bujur"],
+        answer: 0
+    }
+],
+
+
+/* =========================================================
+   MISSION 3
+   PEMBETULAN EJAAN
+========================================================= */
+
+[
+    {
+        type: "Pembetulan Ejaan",
+        q: "Pilih ejaan yang betul.",
+        options: ["sekolah", "sekola", "sekollah", "sekolahh"],
+        answer: 0
+    },
+
+    {
+        type: "Pembetulan Ejaan",
+        q: "Pilih ejaan yang betul.",
+        options: ["kucing", "kuching", "kucingg", "kucin"],
+        answer: 0
+    },
+
+    {
+        type: "Pembetulan Ejaan",
+        q: "Pilih ejaan yang betul.",
+        options: ["kereta", "kreta", "keretta", "keretaah"],
+        answer: 0
+    },
+
+    {
+        type: "Pembetulan Ejaan",
+        q: "Pilih ejaan yang betul.",
+        options: ["bunga", "bonga", "bungga", "bungaah"],
+        answer: 0
+    },
+
+    {
+        type: "Pembetulan Ejaan",
+        q: "Pilih ejaan yang betul.",
+        options: ["keluarga", "keluargaah", "kelorga", "keluargga"],
+        answer: 0
+    }
+],
+
+
+/* =========================================================
+   MISSION 4
+   PADANKAN AYAT DENGAN GAMBAR
+========================================================= */
+
+[
+    {
+        type: "Padankan Ayat dengan Gambar",
+        q: "Pilih gambar yang menunjukkan: 'Adik sedang tidur.'",
+        picture: true,
+        options: [
+            {emoji:"😴", text:"Adik tidur"},
+            {emoji:"🏃", text:"Adik berlari"},
+            {emoji:"🍜", text:"Adik makan"},
+            {emoji:"📚", text:"Adik membaca"}
+        ],
+        answer: 0
+    },
+
+    {
+        type: "Padankan Ayat dengan Gambar",
+        q: "Pilih gambar yang menunjukkan: 'Ibu memasak.'",
+        picture: true,
+        options: [
+            {emoji:"👩‍🍳", text:"Ibu memasak"},
+            {emoji:"👩‍🏫", text:"Ibu mengajar"},
+            {emoji:"😴", text:"Ibu tidur"},
+            {emoji:"🏃", text:"Ibu berlari"}
+        ],
+        answer: 0
+    },
+
+    {
+        type: "Padankan Ayat dengan Gambar",
+        q: "Pilih gambar yang menunjukkan: 'Ali bermain bola.'",
+        picture: true,
+        options: [
+            {emoji:"⚽", text:"Ali bermain bola"},
+            {emoji:"📖", text:"Ali membaca"},
+            {emoji:"🍎", text:"Ali makan"},
+            {emoji:"🛏️", text:"Ali tidur"}
+        ],
+        answer: 0
+    },
+
+    {
+        type: "Padankan Ayat dengan Gambar",
+        q: "Pilih gambar yang menunjukkan: 'Siti membaca buku.'",
+        picture: true,
+        options: [
+            {emoji:"📖", text:"Siti membaca"},
+            {emoji:"🏊", text:"Siti berenang"},
+            {emoji:"🍚", text:"Siti makan"},
+            {emoji:"⚽", text:"Siti bermain bola"}
+        ],
+        answer: 0
+    },
+
+    {
+        type: "Padankan Ayat dengan Gambar",
+        q: "Pilih gambar yang menunjukkan: 'Ayah memandu kereta.'",
+        picture: true,
+        options: [
+            {emoji:"🚗", text:"Ayah memandu"},
+            {emoji:"🚲", text:"Ayah berbasikal"},
+            {emoji:"🍳", text:"Ayah memasak"},
+            {emoji:"😴", text:"Ayah tidur"}
+        ],
+        answer: 0
+    }
+],
+
+
+/* =========================================================
+   MISSION 5
+   ISI TEMPAT KOSONG DENGAN FRASA
+========================================================= */
+
+[
+    {
+        type: "Isi Tempat Kosong",
+        q: "Ibu pergi ke _____ untuk membeli sayur.",
+        options: ["pasar", "sekolah", "bilik tidur", "padang"],
+        answer: 0
+    },
+
+    {
+        type: "Isi Tempat Kosong",
+        q: "Murid-murid belajar di _____.",
+        options: ["sekolah", "dapur", "taman", "bilik air"],
+        answer: 0
+    },
+
+    {
+        type: "Isi Tempat Kosong",
+        q: "Ayah membaca buku di _____.",
+        options: ["ruang tamu", "padang", "pasar", "kantin"],
+        answer: 0
+    },
+
+    {
+        type: "Isi Tempat Kosong",
+        q: "Adik tidur di _____.",
+        options: ["bilik tidur", "dapur", "sekolah", "taman"],
+        answer: 0
+    },
+
+    {
+        type: "Isi Tempat Kosong",
+        q: "Kami bermain bola di _____.",
+        options: ["padang", "dapur", "bilik air", "kelas"],
+        answer: 0
+    }
+],
+
+
+/* =========================================================
+   MISSION 6
+   SUSUN PERKATAAN MENJADI AYAT
+========================================================= */
+
+[
+    {
+        type: "Susun Perkataan",
+        q: "Susun perkataan menjadi ayat yang betul.",
+        options: ["Ali", "makan", "nasi", "."],
+        answerSentence: "Ali makan nasi."
+    },
+
+    {
+        type: "Susun Perkataan",
+        q: "Susun perkataan menjadi ayat yang betul.",
+        options: ["Ibu", "memasak", "di dapur", "."],
+        answerSentence: "Ibu memasak di dapur."
+    },
+
+    {
+        type: "Susun Perkataan",
+        q: "Susun perkataan menjadi ayat yang betul.",
+        options: ["Adik", "bermain", "bola", "."],
+        answerSentence: "Adik bermain bola."
+    },
+
+    {
+        type: "Susun Perkataan",
+        q: "Susun perkataan menjadi ayat yang betul.",
+        options: ["Siti", "membaca", "buku", "."],
+        answerSentence: "Siti membaca buku."
+    },
+
+    {
+        type: "Susun Perkataan",
+        q: "Susun perkataan menjadi ayat yang betul.",
+        options: ["Ayah", "memandu", "kereta", "."],
+        answerSentence: "Ayah memandu kereta."
+    }
+],
+
+
+/* =========================================================
+   MISSION 7
+   PEMAHAMAN
+========================================================= */
+
+[
+    {
+        type: "Pemahaman",
+        passage:
+        "Nama saya Amir. Saya berumur tujuh tahun. " +
+        "Saya tinggal bersama ibu, ayah dan adik. " +
+        "Saya suka bermain bola pada waktu petang.",
+
+        q: "Berapakah umur Amir?",
+        options: ["Lima tahun", "Enam tahun", "Tujuh tahun", "Lapan tahun"],
+        answer: 2
+    },
+
+    {
+        type: "Pemahaman",
+        passage:
+        "Nama saya Lina. Saya mempunyai seekor kucing. " +
+        "Nama kucing saya ialah Mimi. Mimi mempunyai bulu berwarna putih.",
+
+        q: "Apakah nama kucing Lina?",
+        options: ["Lina", "Mimi", "Ali", "Siti"],
+        answer: 1
+    },
+
+    {
+        type: "Pemahaman",
+        passage:
+        "Pada hari Ahad, Kumar pergi ke taman bersama keluarganya. " +
+        "Kumar bermain bola dengan abangnya.",
+
+        q: "Bilakah Kumar pergi ke taman?",
+        options: ["Hari Isnin", "Hari Jumaat", "Hari Sabtu", "Hari Ahad"],
+        answer: 3
+    },
+
+    {
+        type: "Pemahaman",
+        passage:
+        "Aina mempunyai sebuah basikal baharu. " +
+        "Basikal Aina berwarna merah. " +
+        "Aina menunggang basikal di taman.",
+
+        q: "Apakah warna basikal Aina?",
+        options: ["Biru", "Hijau", "Merah", "Kuning"],
+        answer: 2
+    },
+
+    {
+        type: "Pemahaman",
+        passage:
+        "Ravi suka membaca buku cerita. " +
+        "Setiap malam, Ravi membaca buku sebelum tidur.",
+
+        q: "Apakah yang Ravi suka lakukan?",
+        options: [
+            "Membaca buku",
+            "Bermain bola",
+            "Menonton televisyen",
+            "Berenang"
+        ],
+        answer: 0
+    }
+],
+
+
+/* =========================================================
+   MISSION 8
+   BINA AYAT
+========================================================= */
+
+[
+    {
+        type: "Bina Ayat",
+        q: "Bina satu ayat menggunakan perkataan: <b>sekolah</b>",
+        input: true,
+        answers: [
+            "Saya pergi ke sekolah.",
+            "Saya ke sekolah.",
+            "Saya pergi ke sekolah"
+        ]
+    },
+
+    {
+        type: "Bina Ayat",
+        q: "Bina satu ayat menggunakan perkataan: <b>buku</b>",
+        input: true,
+        answers: [
+            "Saya membaca buku.",
+            "Saya baca buku.",
+            "Saya mempunyai buku.",
+            "Saya ada buku."
+        ]
+    },
+
+    {
+        type: "Bina Ayat",
+        q: "Bina satu ayat menggunakan perkataan: <b>kucing</b>",
+        input: true,
+        answers: [
+            "Saya ada kucing.",
+            "Saya mempunyai kucing.",
+            "Kucing itu comel.",
+            "Kucing saya comel."
+        ]
+    },
+
+    {
+        type: "Bina Ayat",
+        q: "Bina satu ayat menggunakan perkataan: <b>makan</b>",
+        input: true,
+        answers: [
+            "Saya makan nasi.",
+            "Saya makan.",
+            "Ali makan nasi.",
+            "Adik makan nasi."
+        ]
+    },
+
+    {
+        type: "Bina Ayat",
+        q: "Bina satu ayat menggunakan perkataan: <b>bermain</b>",
+        input: true,
+        answers: [
+            "Saya bermain bola.",
+            "Ali bermain bola.",
+            "Adik bermain bola.",
+            "Saya bermain."
+        ]
+    }
+
+]
+
+];
+
+
+/* =========================================================
+   GAME VARIABLES
+========================================================= */
+
+let currentLevel = 0;
+let currentQuestion = 0;
+let score = 0;
+let coins = 0;
+let correctAnswers = 0;
+let answered = false;
+
+
+/* =========================================================
+   START LEVEL
+========================================================= */
+
+function startLevel(level) {
+
+    currentLevel = level;
+    currentQuestion = 0;
+    correctAnswers = 0;
+    answered = false;
+
+    document.getElementById("home").style.display = "none";
+    document.getElementById("result").style.display = "none";
+    document.getElementById("game").style.display = "block";
+
+    document.getElementById("questionTotal").textContent =
+        levels[currentLevel].length;
+
+    loadQuestion();
+}
+
+
+/* =========================================================
+   LOAD QUESTION
+========================================================= */
+
+function loadQuestion() {
+
+    answered = false;
+
+    const data = levels[currentLevel][currentQuestion];
+
+    document.getElementById("questionNumber").textContent =
+        currentQuestion + 1;
+
+    document.getElementById("questionType").textContent =
+        data.type;
+
+    document.getElementById("question").innerHTML =
+        data.q;
+
+    document.getElementById("feedback").textContent = "";
+
+    document.getElementById("nextBtn").style.display = "none";
+
+    const content =
+        document.getElementById("questionContent");
+
+    content.innerHTML = "";
+
+    updateProgress();
+
+
+    /* =========================
+       PASSAGE
+    ========================= */
+
+    if (data.passage) {
+
+        const passage = document.createElement("div");
+
+        passage.className = "passage";
+
+        passage.innerHTML =
+            "<strong>📖 Baca petikan:</strong><br><br>" +
+            data.passage;
+
+        content.appendChild(passage);
+    }
+
+
+    /* =========================
+       INPUT QUESTION
+    ========================= */
+
+    if (data.input) {
+
+        const input = document.createElement("input");
+
+        input.className = "answer-input";
+
+        input.id = "answerInput";
+
+        input.placeholder =
+            "Taip jawapan kamu di sini...";
+
+        content.appendChild(input);
+
+        const button =
+            document.createElement("button");
+
+        button.className = "check-btn";
+
+        button.textContent = "✓ Semak Jawapan";
+
+        button.onclick = checkInputAnswer;
+
+        content.appendChild(button);
+
+        return;
+    }
+
+
+    /* =========================
+       SENTENCE ORDER
+    ========================= */
+
+    if (data.answerSentence) {
+
+        const shuffled =
+            [...data.options].sort(
+                () => Math.random() - 0.5
+            );
+
+        const box =
+            document.createElement("div");
+
+        box.className = "options";
+
+        shuffled.forEach(word => {
+
+            const button =
+                document.createElement("button");
+
+            button.className = "option";
+
+            button.textContent = word;
+
+            button.onclick = function() {
+
+                if (answered) return;
+
+                this.classList.toggle("selected");
+
+                this.style.background =
+                    this.classList.contains("selected")
+                    ? "#d9f6ff"
+                    : "#f8fdff";
+            };
+
+            box.appendChild(button);
+        });
+
+        content.appendChild(box);
+
+
+        const check =
+            document.createElement("button");
+
+        check.className = "check-btn";
+
+        check.textContent =
+            "✓ Semak Ayat";
+
+        check.onclick = checkSentence;
+
+        content.appendChild(check);
+
+        return;
+    }
+
+
+    /* =========================
+       PICTURE QUESTION
+    ========================= */
+
+    if (data.picture) {
+
+        const box =
+            document.createElement("div");
+
+        box.className = "picture-options";
+
+        data.options.forEach((item,index) => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "picture-option";
+
+            card.innerHTML =
+                `<span class="pic">${item.emoji}</span>
+                 <strong>${item.text}</strong>`;
+
+            card.onclick =
+                () => checkAnswer(index, card);
+
+            box.appendChild(card);
+
+        });
+
+        content.appendChild(box);
+
+        return;
+    }
+
+
+    /* =========================
+       NORMAL OPTIONS
+    ========================= */
+
+    if (data.options) {
+
+        const box =
+            document.createElement("div");
+
+        box.className = "options";
+
+        data.options.forEach((option,index) => {
+
+            const button =
+                document.createElement("button");
+
+            button.className = "option";
+
+            button.textContent = option;
+
+            button.onclick =
+                () => checkAnswer(index, button);
+
+            box.appendChild(button);
+
+        });
+
+        content.appendChild(box);
+    }
+
+}
+
+
+/* =========================================================
+   CHECK NORMAL ANSWER
+========================================================= */
+
+function checkAnswer(index, element) {
+
+    if (answered) return;
+
+    answered = true;
+
+    const data =
+        levels[currentLevel][currentQuestion];
+
+    const all =
+        document.querySelectorAll(
+            ".option, .picture-option"
+        );
+
+    if (index === data.answer) {
+
+        element.classList.add("correct");
+
+        correctAnswers++;
+
+        score += 10;
+
+        coins += 5;
+
+        document.getElementById("feedback").innerHTML =
+            "🎉 Betul! Bagus sekali! 🩵";
+
+    } else {
+
+        element.classList.add("wrong");
+
+        all[data.answer].classList.add("correct");
+
+        document.getElementById("feedback").innerHTML =
+            "💡 Cuba lagi pada soalan seterusnya!";
+
+    }
+
+    updateStats();
+
+    document.getElementById("nextBtn").style.display =
+        "block";
+}
+
+
+/* =========================================================
+   CHECK SENTENCE
+========================================================= */
+
+function checkSentence() {
+
+    if (answered) return;
+
+    answered = true;
+
+    const selected =
+        [...document.querySelectorAll(
+            ".option.selected"
+        )].map(el => el.textContent);
+
+    const sentence =
+        selected.join(" ").replace(" .",".").trim();
+
+    const correct =
+        levels[currentLevel][currentQuestion]
+        .answerSentence;
+
+    if (sentence === correct) {
+
+        correctAnswers++;
+
+        score += 10;
+
+        coins += 5;
+
+        document.getElementById("feedback").innerHTML =
+            "🎉 Ayat betul! Hebat! 🌺";
+
+    } else {
+
+        document.getElementById("feedback").innerHTML =
+            "💡 Jawapan yang betul: " + correct;
+    }
+
+    updateStats();
+
+    document.getElementById("nextBtn").style.display =
+        "block";
+}
+
+
+/* =========================================================
+   CHECK INPUT
+========================================================= */
+
+function checkInputAnswer() {
+
+    if (answered) return;
+
+    const input =
+        document.getElementById("answerInput");
+
+    const userAnswer =
+        input.value.trim().toLowerCase();
+
+    const data =
+        levels[currentLevel][currentQuestion];
+
+    const accepted =
+        data.answers.map(
+            a => a.toLowerCase()
+        );
+
+    answered = true;
+
+    if (accepted.includes(userAnswer)) {
+
+        correctAnswers++;
+
+        score += 10;
+
+        coins += 5;
+
+        document.getElementById("feedback").innerHTML =
+            "🎉 Ayat diterima! Bagus! 🩵";
+
+    } else {
+
+        document.getElementById("feedback").innerHTML =
+            "💡 Cuba bina ayat yang lengkap menggunakan perkataan tersebut.";
+    }
+
+    input.disabled = true;
+
+    updateStats();
+
+    document.getElementById("nextBtn").style.display =
+        "block";
+}
+
+
+/* =========================================================
+   NEXT QUESTION
+========================================================= */
+
+function nextQuestion() {
+
+    currentQuestion++;
+
+    if (
+        currentQuestion >=
+        levels[currentLevel].length
+    ) {
+
+        showResult();
+
+    } else {
+
+        loadQuestion();
+
+    }
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+function showResult() {
+
+    document.getElementById("game").style.display =
+        "none";
+
+    document.getElementById("result").style.display =
+        "block";
+
+    document.getElementById("finalScore").textContent =
+        score;
+
+    document.getElementById("correctCount").textContent =
+        correctAnswers;
+
+
+    const total =
+        levels[currentLevel].length;
+
+    const percentage =
+        correctAnswers / total;
+
+    if (percentage === 1) {
+
+        document.getElementById("resultIcon")
+        .textContent = "🏆";
+
+    } else if (percentage >= 0.6) {
+
+        document.getElementById("resultIcon")
+        .textContent = "🌺";
+
+    } else {
+
+        document.getElementById("resultIcon")
+        .textContent = "🩵";
+    }
+
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function updateProgress() {
+
+    const total =
+        levels[currentLevel].length;
+
+    const percentage =
+        ((currentQuestion) / total) * 100;
+
+    document.getElementById("progressBar")
+        .style.width = percentage + "%";
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats() {
+
+    document.getElementById("score")
+        .textContent = score;
+
+    document.getElementById("coins")
+        .textContent = coins;
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function goHome() {
+
+    document.getElementById("game").style.display =
+        "none";
+
+    document.getElementById("result").style.display =
+        "none";
+
+    document.getElementById("home").style.display =
+        "block";
+}
+
+</script>
+
+</body>
+</html>
